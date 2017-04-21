@@ -2,8 +2,19 @@ module StoreHaxl where
 
 import Control.Monad
 import StoreDataSource
+import NaideDataSource
 import Haxl.Core
 
+getTrackAlbumGenre :: GenHaxl () Int -> GenHaxl () Int -> GenHaxl () [String]
+getTrackAlbumGenre albumId artist = join (dataFetch <$> (GetTrackByAlbumGenre <$> albumId <*> artist))
+
+getAlbumId :: GenHaxl () String -> GenHaxl () Int
+getAlbumId albumName = join (dataFetch <$> (GetAlbumId <$> albumName))
+
+getGenre :: GenHaxl () String -> GenHaxl () Int
+getGenre genreName = join (dataFetch <$> (GetGenreId <$> genreName))
+
+{-
 getArtist :: GenHaxl () Int -> GenHaxl () String
 getArtist artistId = join (dataFetch <$> (GetArtistById <$> artistId))
 
@@ -27,17 +38,6 @@ getTracksArtist artistId = dataFetch (GetArtistTracks artistId)
 
 getTrackType :: Int -> GenHaxl () String
 getTrackType trackId = dataFetch (GetTrackMediatype trackId)
-
-getTrackAlbumGenre :: GenHaxl () Int -> GenHaxl () Int -> GenHaxl () [String]
-getTrackAlbumGenre albumId artist = join (dataFetch <$> (GetTrackByAlbumGenre <$> albumId <*> artist))
-
-getAlbumId :: GenHaxl () String -> GenHaxl () Int
-getAlbumId albumName = join (dataFetch <$> (GetAlbumId <$> albumName))
-
-getGenre :: GenHaxl () String -> GenHaxl () Int
-getGenre genreName = join (dataFetch <$> (GetGenreId <$> genreName))
-
-{-
 
 getArtist2 :: Int -> GenHaxl () String
 getArtist2 artistId = dataFetch (GetArtistById2 artistId)
