@@ -17,4 +17,4 @@ paring = do
     connState <- initConnState
     myEnv <- initEnv (stateSet NoState $ stateSet connState $ stateEmpty) ()
     r <- runHaxl myEnv $ getTrackAlbumGenre (getAlbumId "For Those About To Rock We Salute You") (getGenre "Rock")
-    putStrLn $ (show r) ++ "\n"
+    print r
