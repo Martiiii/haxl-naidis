@@ -40,8 +40,8 @@ deriving instance Eq (Store a)
 instance DataSourceName Store where
     dataSourceName _ = "TheStore1"
 
-instance Show1 Store where
-    show1 = show
+instance ShowP Store where
+    showp = show
 
 instance Hashable (Store a) where
     hashWithSalt salt (GetArtistById a) = hashWithSalt salt (a)
@@ -108,8 +108,8 @@ deriving instance Eq (Store2 a)
 instance DataSourceName Store2 where
     dataSourceName _ = "TheStore2"
 
-instance Show1 Store2 where
-    show1 = show
+instance ShowP Store2 where
+    showp = show
 
 instance Hashable (Store2 a) where
     hashWithSalt salt (GetArtistById2 a) = hashWithSalt salt (a)
@@ -144,11 +144,11 @@ instance DataSource () Store2 where
         traceRequests reqs
         forM_ reqs $ \(BlockedFetch req var) -> runQuery2 db req var
 -}
-traceRequests :: Show1 r => [BlockedFetch r] -> IO ()
+traceRequests :: ShowP r => [BlockedFetch r] -> IO ()
 traceRequests reqs = printf "Computing %s\n" (show strs)
   where
     strs = fmap showRequest reqs
-    showRequest (BlockedFetch req _) = show1 req
+    showRequest (BlockedFetch req _) = showp req
 
 runQuery :: Connection -> Store a -> ResultVar a -> IO ()
 runQuery db (GetArtistById x) var = getArtistById x db var
