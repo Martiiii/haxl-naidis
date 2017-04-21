@@ -16,8 +16,8 @@ deriving instance Eq (Inimene a)
 instance DataSourceName Inimene where
     dataSourceName _ = "Inimene"
 
-instance Show1 Inimene where
-    show1 = show
+instance ShowP Inimene where
+    showp = show
 
 instance Hashable (Inimene a) where
     hashWithSalt salt Vanus = hashWithSalt salt ()
@@ -33,8 +33,8 @@ instance DataSource () Inimene where
 getVanus :: Inimene a -> ResultVar a -> IO ()
 getVanus Vanus var = putSuccess var 21
 
-traceRequests :: Show1 r => [BlockedFetch r] -> IO ()
+traceRequests :: ShowP r => [BlockedFetch r] -> IO ()
 traceRequests reqs = printf "Computing %s\n" (show strs)
   where
     strs = fmap showRequest reqs
-    showRequest (BlockedFetch req _) = show1 req
+    showRequest (BlockedFetch req _) = showp req
