@@ -15,6 +15,6 @@ import Haxl.Core
 paring :: IO ()
 paring = do
     connState <- initConnState
-    myEnv <- initEnv (stateSet connState $ stateEmpty) ()
-    r <- runHaxl myEnv $ getTrackAlbumGenre (getAlbumId "For Those About To Rock We Salute You") (getGenre "Rock")
+    myEnv <- initEnv (stateSet NoState $ stateSet connState $ stateEmpty) ()
+    r <- runHaxl myEnv $ getTrackAlbumGenre (getAlbumId "For Those About To Rock We Salute You") getVanusNr
     print r
