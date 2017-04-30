@@ -11,5 +11,5 @@ getTrackAlbumGenre albumId artist = dataFetch =<< GetTrackByAlbumGenre <$> album
 getAlbumId :: String -> GenHaxl () Int
 getAlbumId albumName = dataFetch =<< GetAlbumId <$> (pure albumName)
 
-getGenre :: String -> GenHaxl () Int
-getGenre genreName = dataFetch =<< GetGenreId <$> (pure genreName)
+getVanusNr :: GenHaxl () Int
+getVanusNr = dataFetch =<< (pure Vanus)
