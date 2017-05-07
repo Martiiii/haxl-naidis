@@ -27,14 +27,7 @@ instance StateKey Inimene where
 
 instance DataSource () Inimene where
     fetch _ _ _ reqs = SyncFetch $ do
-        traceRequests reqs
         forM_ reqs $ \(BlockedFetch req var) -> getVanus req var
 
 getVanus :: Inimene a -> ResultVar a -> IO ()
 getVanus Vanus var = putSuccess var 21
-
-traceRequests :: ShowP r => [BlockedFetch r] -> IO ()
-traceRequests reqs = printf "Computing %s\n" (show strs)
-  where
-    strs = fmap showRequest reqs
-    showRequest (BlockedFetch req _) = showp req
