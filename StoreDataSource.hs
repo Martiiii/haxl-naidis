@@ -23,22 +23,15 @@ instance ShowP Store where
     showp = show
 
 instance Hashable (Store a) where
-    hashWithSalt salt (GetTrackByAlbumGenre a b) = salt
-    hashWithSalt salt (GetAlbumId a) = salt
+    hashWithSalt salt (GetTrackByAlbumGenre a b) = 2 * (a + b + salt)
+    hashWithSalt salt (GetAlbumId a) = 2 * ((length a) + salt) + 1
 
 instance StateKey Store where
     data State Store = ConnState {connection :: Connection}
 
 instance DataSource () Store where
     fetch (ConnState db) _ _ reqs = SyncFetch $ do
-        traceRequests reqs
         forM_ reqs $ \(BlockedFetch req var) -> runQuery db req var
-
-traceRequests :: ShowP r => [BlockedFetch r] -> IO ()
-traceRequests reqs = printf "Computing %s\n" (show strs)
-  where
-    strs = fmap showRequest reqs
-    showRequest (BlockedFetch req _) = showp req
 
 runQuery :: Connection -> Store a -> ResultVar a -> IO ()
 runQuery db (GetTrackByAlbumGenre x y) var = getTrackByAlbumGenre x y db var
